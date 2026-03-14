@@ -1,11 +1,120 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { featuredProjects } from "../data/projects";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const experienceLogos = [
+  { src: "/logos/amazon.svg", alt: "Amazon", imgClass: "scale-125" },
+  { src: "/logos/wellsfargo.svg", alt: "Wells Fargo" },
+  { src: "/logos/adp.svg", alt: "ADP" },
+  { src: "/logos/tcs.svg", alt: "Tata Consultancy Services", imgClass: "scale-150" },
+];
+
+const recentPosts = (await getCollection("blog"))
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 5);
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Prasad"
+  description="Data engineer at Amazon Ads. Streaming, warehouses, pipeline reliability. Writing about what breaks and why."
+>
+  <main class="max-w-[42rem] mx-auto px-6 pb-16">
+
+    <!-- Hero -->
+    <section class="pt-4">
+      <div class="flex items-start gap-6 sm:gap-8">
+        <img
+          src="/photo.jpg"
+          alt="Prasad"
+          width="96"
+          height="96"
+          class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover bg-[var(--codebg)] border border-[var(--border)] shrink-0"
+        />
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Prasad</h1>
+          <p class="mt-3 text-[var(--muted)] leading-relaxed">
+            Data engineer at Amazon Ads. Streaming systems, warehouses, pipeline reliability. A decade across Amazon, Wells Fargo, ADP, and TCS. Currently doing a PGP in AI/ML at UT Austin — the stack is shifting and I want to build at the intersection.
+          </p>
+          <p class="mt-3 text-sm">
+            <a href="https://github.com/saradaprasad" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="text-[var(--border)] mx-1.5">·</span>
+            <a href="https://www.linkedin.com/in/saradaprasadparida/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <span class="text-[var(--border)] mx-1.5">·</span>
+            <a href="/resume.pdf">Resume</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section class="mt-14">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--subtle)]">Blog</h2>
+      <ul class="mt-4 space-y-2.5">
+        {recentPosts.map((p) => (
+          <li class="text-sm flex items-baseline gap-3">
+            <span class="text-[var(--subtle)] shrink-0 tabular-nums">
+              {p.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
+            </span>
+            <a href={`/blog/${p.id}`}>{p.data.title}</a>
+          </li>
+        ))}
+      </ul>
+      {recentPosts.length === 0 && (
+        <p class="mt-4 text-sm text-[var(--subtle)]">No posts yet.</p>
+      )}
+    </section>
+
+    <!-- Projects -->
+    <section class="mt-14">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--subtle)]">Projects</h2>
+        <a href="/projects" class="text-xs text-[var(--subtle)] hover:text-[var(--fg)] transition-colors no-underline">All projects &rarr;</a>
+      </div>
+      <ul class="mt-4 space-y-6">
+        {featuredProjects.map((p) => (
+          <li>
+            <div class="flex items-center gap-2.5">
+              {p.url ? (
+                <a href={p.url} target="_blank" rel="noopener noreferrer" class="font-medium no-underline hover:underline underline-offset-4">{p.title}</a>
+              ) : (
+                <span class="font-medium">{p.title}</span>
+              )}
+              <span class={`text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${p.status === "In progress" ? "bg-blue-500/10 text-blue-500" : "bg-[var(--codebg)] text-[var(--subtle)]"}`}>
+                {p.status}
+              </span>
+            </div>
+            <p class="mt-1 text-sm text-[var(--muted)]">{p.description}</p>
+            <div class="mt-1.5 flex flex-wrap gap-1.5">
+              {p.tags.map((t) => (
+                <span class="text-[11px] text-[var(--subtle)] bg-[var(--codebg)] px-1.5 py-0.5 rounded">{t}</span>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Where I've worked -->
+    <section class="mt-14">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--subtle)]">Where I've worked</h2>
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4" role="list" aria-label="Companies">
+        {experienceLogos.map(({ src, alt, imgClass }) => (
+          <div class="group rounded-lg border border-[var(--border)] bg-[var(--codebg)] px-4 py-3.5 transition hover:-translate-y-0.5 hover:shadow-md hover:border-[var(--muted)] active:-translate-y-0.5 active:shadow-md active:border-[var(--muted)]" role="listitem">
+            <img
+              src={src}
+              alt={alt}
+              class={`mx-auto h-10 w-auto max-w-[140px] object-contain opacity-90 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 group-active:opacity-100 group-active:grayscale-0 ${imgClass ?? ""}`}
+              width={140}
+              height={28}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </main>
 </Layout>

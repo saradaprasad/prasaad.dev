@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Resume | Prasad" description="Prasad's resume and experience.">
+  <main class="max-w-[42rem] mx-auto px-6 py-14 sm:py-20">
+    <header class="mb-10">
+      <h1 class="text-2xl font-semibold tracking-tight">Resume</h1>
+    </header>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a
+        href="/resume.pdf"
+        class="inline-flex items-center justify-center rounded-md bg-[var(--fg)] px-4 py-2.5 text-sm font-medium text-[var(--bg)] hover:opacity-90 transition"
+      >
+        Download PDF
+      </a>
+      <a
+        href="/resume.pdf#view=FitH"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center rounded-md border border-[var(--border)] px-4 py-2.5 text-sm font-medium text-[var(--muted)] hover:text-[var(--fg)] hover:border-[var(--muted)] transition-colors"
+      >
+        Open in new tab
+      </a>
+    </div>
+  </main>
+</Layout>

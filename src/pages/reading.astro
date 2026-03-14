@@ -1,0 +1,138 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+type Read = { name: string; url: string; note: string };
+
+const sections: { title: string; items: Read[] }[] = [
+  {
+    title: "Data engineering",
+    items: [
+      {
+        name: "AWS Big Data Blog",
+        url: "https://aws.amazon.com/blogs/big-data/",
+        note: "Pragmatic patterns for data lakes, streaming, and analytics on AWS.",
+      },
+      {
+        name: "Netflix TechBlog",
+        url: "https://netflixtechblog.com/",
+        note: "Great writing on data infrastructure, reliability, and scale.",
+      },
+      {
+        name: "Uber Engineering Blog",
+        url: "https://www.uber.com/blog/engineering/",
+        note: "Real-world platform and data system lessons from large-scale operations.",
+      },
+      {
+        name: "DoorDash Engineering Blog",
+        url: "https://doordash.engineering/",
+        note: "Solid posts on pipelines, infra, and production engineering tradeoffs.",
+      },
+      {
+        name: "Databricks Blog",
+        url: "https://www.databricks.com/blog",
+        note: "Deep dives on Spark, lakehouse architectures, and production workflows.",
+      },
+      {
+        name: "Confluent Blog",
+        url: "https://www.confluent.io/blog/",
+        note: "Streaming-first thinking: Kafka patterns, event-driven systems, ops.",
+      },
+      {
+        name: "Stripe Engineering",
+        url: "https://stripe.com/blog/engineering",
+        note: "High-quality writeups on building reliable systems at scale.",
+      },
+      {
+        name: "Cloudflare Blog",
+        url: "https://blog.cloudflare.com/",
+        note: "Strong engineering writing; lots of systems + performance content.",
+      },
+    ],
+  },
+  {
+    title: "AI/ML",
+    items: [
+      {
+        name: "OpenAI Blog",
+        url: "https://openai.com/blog/",
+        note: "Model releases, safety, and practical AI system notes.",
+      },
+      {
+        name: "Anthropic News & Research",
+        url: "https://www.anthropic.com/news",
+        note: "High-signal posts on language models, safety, and evaluation.",
+      },
+      {
+        name: "Google DeepMind Blog",
+        url: "https://deepmind.google/discover/blog/",
+        note: "Research updates across AI, reasoning, and applied systems.",
+      },
+      {
+        name: "Meta AI",
+        url: "https://ai.meta.com/blog/",
+        note: "Open models, infra, and applied research writeups.",
+      },
+      {
+        name: "Hugging Face Blog",
+        url: "https://huggingface.co/blog",
+        note: "Tools, open-source models, and practical LLM workflows.",
+      },
+      {
+        name: "Google AI Blog",
+        url: "https://ai.googleblog.com/",
+        note: "ML research and product engineering notes across many domains.",
+      },
+      {
+        name: "DeepLearning.AI",
+        url: "https://www.deeplearning.ai/the-batch/",
+        note: "High-quality ML/AI commentary and learning resources.",
+      },
+      {
+        name: "Distill",
+        url: "https://distill.pub/",
+        note: "Exceptional ML explanations and visual, research-grade writing.",
+      },
+      {
+        name: "Lil'Log (Lilian Weng)",
+        url: "https://lilianweng.github.io/",
+        note: "Deep technical notes on ML and modern LLM topics.",
+      },
+    ],
+  },
+];
+
+const total = sections.reduce((acc, s) => acc + s.items.length, 0);
+---
+
+<Layout title="Reading | Prasad" description="A curated reading list for data engineering, ML, and AI.">
+  <main class="max-w-[42rem] mx-auto px-6 py-14 sm:py-20">
+    <header class="mb-10">
+      <h1 class="text-2xl font-semibold tracking-tight">
+        Reading <span class="text-[var(--subtle)]">({total})</span>
+      </h1>
+      <p class="mt-2 text-[var(--muted)] text-sm">
+        A small, curated list of consistently high-signal writing I learn from.
+      </p>
+    </header>
+
+    <div class="space-y-10">
+      {sections.map((section) => (
+        <section>
+          <h2 class="text-sm font-semibold tracking-tight">{section.title}</h2>
+          <ul class="mt-3 list-disc pl-5 space-y-3">
+            {section.items.map((r) => (
+              <li class="text-sm">
+                <a href={r.url} target="_blank" rel="noopener noreferrer">
+                  {r.name}
+                </a>
+                <span class="text-[var(--muted)]"> — {r.note}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+  </main>
+</Layout>
+

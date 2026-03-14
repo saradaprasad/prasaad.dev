@@ -1,0 +1,91 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getEntry, render } from "astro:content";
+import readingTime from "reading-time";
+
+export async function getStaticPaths() {
+  const { getCollection } = await import("astro:content");
+  const entries = await getCollection("blog", (e) => !e.data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id } }));
+}
+
+const { slug } = Astro.params;
+const entry = slug ? await getEntry("blog", slug) : undefined;
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+
+const { Content, headings } = await render(entry);
+const { title, description, pubDate } = entry.data;
+const stats = readingTime(entry.body ?? "");
+const tocHeadings = headings.filter((h) => h.depth === 2);
+---
+
+<Layout title={`${title} | Prasad`} description={description}>
+  <div id="progress-bar" class="fixed top-0 left-0 h-[2px] bg-[var(--link)] z-50 transition-[width] duration-75" style="width:0%"></div>
+
+  <main class="max-w-[42rem] mx-auto px-6 py-14 sm:py-20">
+    <article>
+      <header class="mb-10 pb-8 border-b border-[var(--border)]">
+        <h1 class="text-[1.75rem] sm:text-[2rem] font-bold tracking-tight leading-[1.25]">
+          {title}
+        </h1>
+        <div class="mt-4 text-sm text-[var(--subtle)]">
+          <time datetime={pubDate.toISOString()}>
+            {pubDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          <span class="mx-1.5">·</span>
+          <span>{stats.text}</span>
+        </div>
+      </header>
+
+      <div class="blog-body">
+        <Content />
+      </div>
+    </article>
+
+    <footer class="mt-12 pt-6 border-t border-[var(--border)] flex items-center justify-between">
+      <a
+        href="/blog"
+        class="text-sm text-[var(--subtle)] hover:text-[var(--fg)] no-underline transition-colors"
+      >
+        ← All posts
+      </a>
+      <button
+        id="copy-link"
+        type="button"
+        class="text-xs text-[var(--subtle)] hover:text-[var(--fg)] transition-colors cursor-pointer"
+      >
+        Copy link
+      </button>
+    </footer>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const bar = document.getElementById("progress-bar");
+      if (!bar) return;
+      const update = () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = h > 0 ? Math.min(100, (window.scrollY / h) * 100) + "%" : "0%";
+      };
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+
+      const btn = document.getElementById("copy-link");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            btn.textContent = "Copied!";
+            setTimeout(() => { btn.textContent = "Copy link"; }, 2000);
+          });
+        });
+      }
+    })();
+  </script>
+</Layout>

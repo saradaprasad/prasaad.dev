@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sections, statusColor } from "../data/projects";
+---
+
+<Layout title="Projects | Prasad" description="Open-source projects across data engineering and AI/ML.">
+  <main class="max-w-[42rem] mx-auto px-6 py-14 sm:py-20">
+    <header class="mb-10">
+      <h1 class="text-2xl font-semibold tracking-tight">Projects</h1>
+      <p class="mt-2 text-[var(--muted)] text-sm">
+        Things I'm building or plan to build. Code goes on <a href="https://github.com/saradaprasad" target="_blank" rel="noopener noreferrer">GitHub</a> as it ships.
+      </p>
+    </header>
+
+    <div class="space-y-12">
+      {sections.map((section) => (
+        <section>
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--subtle)]">{section.title}</h2>
+          <ul class="mt-4 space-y-8 list-none p-0 m-0">
+            {section.items.map((p) => (
+              <li>
+                <div class="flex items-center gap-2.5">
+                  {p.url ? (
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" class="text-lg font-medium no-underline hover:underline underline-offset-4">{p.title}</a>
+                  ) : (
+                    <span class="text-lg font-medium">{p.title}</span>
+                  )}
+                  <span class={`text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${statusColor(p.status)}`}>
+                    {p.status}
+                  </span>
+                </div>
+                <p class="mt-1 text-sm text-[var(--muted)]">{p.description}</p>
+                <div class="mt-2 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (
+                    <span class="text-[11px] text-[var(--subtle)] bg-[var(--codebg)] px-1.5 py-0.5 rounded">{t}</span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </main>
+</Layout>

@@ -1,46 +1,39 @@
-# Astro Starter Kit: Basics
+# prasaad.dev — Engineering Hub
 
-```sh
-npm create astro@latest -- --template basics
-```
+Minimalist, high-signal portfolio and knowledge base. Astro 5 (SSG) + Cloudflare Pages + Tailwind v4. Dark mode by default, slate/zinc palette.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project structure (single source of truth)
 
-## 🚀 Project Structure
+| Path | Purpose |
+|------|--------|
+| `public/resume.pdf` | Master resume (add your PDF here) |
+| `public/logos/` | Company logos (SVG or PNG); grayscale → color on hover |
+| `public/favicon.svg`, `favicon.ico` | Site favicons (referenced as `/favicon.svg`, `/favicon.ico`) |
+| `src/content/blog/` | Blog posts (Markdown with frontmatter) |
 
-Inside of your Astro project, you'll see the following folders and files:
+**Asset placement:** Use `public/` for static files served as-is (favicons, resume PDF, logos). Use `src/assets/` only for images you import in components (Vite will process and hash them). This project keeps logos in `public/logos/` so you can drop in files without changing code.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Routes
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- **/** — Home (hero, experience logos, latest writing)
+- **/blog** — Blog index
+- **/blog/[slug]** — Individual post
+- **/resume** — Resume page (links to PDF)
 
-## 🧞 Commands
+## Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command | Action |
+|---------|--------|
+| `npm run dev` | Local dev at `localhost:4321` |
+| `npm run build` | Production build |
+| `npm run preview` | Preview build (wrangler pages dev) |
+| `npm run deploy` | Build + deploy to Cloudflare Pages |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Stack
 
-## 👀 Want to learn more?
+- **Framework:** Astro 5 (static)
+- **Adapter:** @astrojs/cloudflare
+- **Styling:** Tailwind CSS v4
+- **Deploy:** Cloudflare Pages (wrangler)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Replace placeholder links (GitHub, LinkedIn, company logos) and add `public/resume.pdf` when ready.

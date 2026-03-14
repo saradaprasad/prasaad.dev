@@ -1,14 +1,25 @@
 {
-  "name": "prasaad-dev",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^5.17.1"
-  }
+	"name": "prasaad-dev",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro build && wrangler pages dev",
+		"astro": "astro",
+		"deploy": "astro build && wrangler pages deploy",
+		"cf-typegen": "wrangler types"
+	},
+	"dependencies": {
+		"@astrojs/cloudflare": "^12.6.12",
+		"@astrojs/rss": "^4.0.15",
+		"@tailwindcss/vite": "^4.1.18",
+		"astro": "^5.17.1",
+		"reading-time": "^1.5.0",
+		"tailwindcss": "^4.1.18"
+	},
+	"devDependencies": {
+		"@types/node": "^25.1.0",
+		"wrangler": "^4.61.1"
+	}
 }
